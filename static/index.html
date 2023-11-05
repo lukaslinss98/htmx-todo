@@ -117,8 +117,8 @@
 
 	              <div class="col-12">
 	                <button type="submit" class="btn btn-primary"	
-						hx-post="/api/createTodo"
-						hx-include="[name='text_input']"
+                        hx-post="/api/createTodo"
+                        hx-include="[name='text_input']"
                         hx-target="#todo-table"
                         hx-swap="beforeend"
 	                >Add</button>
@@ -135,8 +135,18 @@
 	                </tr>
 	              </thead>
 	              <tbody id="todo-table">
-	               
-  					<!--This is where the todos go-->
+                  {% for todo in todos %}
+                  <tr>
+                    <th scope="row">{{todo.number}}</th>
+                    <td>{{todo.content}}</td>
+                    <td>{{todo.status}}</td>
+                    <td>
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                      <button type="submit" class="btn btn-success ms-1">Finished</button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+  					    <!--This is where the todos go-->
 
 	              </tbody>
 	            </table>
