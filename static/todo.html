@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <tr>
-  <th scope="row">1</th>
-  <td>{{text_input}}</td>
-  <td>In progress</td>
-  <td>
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <button type="submit" class="btn btn-success ms-1">Finished</button>
-  </td>
+    <th name="{{id}}" id="todo-id" value={{id}} scope="row">{{id}}</th>
+    <td>{{text_input}}</td>
+    <td>In progress</td>
+    <td>
+      <button type="submit" class="btn btn-danger"
+        hx-trigger="click" 
+        hx-delete="/api/deleteTodo"
+        hx-include="[name='{{id}}']" 
+        >Delete</button>
+      <button type="submit" class="btn btn-success ms-1">Finished</button>
+    </td>
 </tr>

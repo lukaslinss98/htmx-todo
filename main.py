@@ -23,5 +23,11 @@ async def root(request: Request):
 
 @app.post("/api/createTodo", response_class=HTMLResponse)
 async def createTodo(request: Request, text_input: Annotated[str, Form()]):
-	DB.insert_todo(text_input)
-	return templates.TemplateResponse("todo.html", {"request": request, "text_input": text_input})
+	id = DB.insert_todo(text_input)
+	return templates.TemplateResponse("todo.html", {"request": request, "text_input": text_input, "id" : id})
+
+@app.delete("/api/deleteTodo", response_class=HTMLResponse)
+async def deleteTodo(request: Request, id: Annotated[str, Form()]):
+	 #DB.delete_todo(id)
+	
+ 	return HTMLResponse("")	

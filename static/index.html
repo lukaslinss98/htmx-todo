@@ -110,8 +110,8 @@
 	            <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
 	              <div class="col-12">
 	                <div class="form-outline">
-	                  <input type="text" placeholder="Your todo here..." id="text_input" name="text_input" class="form-control" />
-	                  <label class="form-label" for="text_input">Enter a task here</label>
+	                  <input type="text" id="text_input" name="text_input" class="form-control" />
+	                  <label class="form-label" >Enter a task here</label>
 	                </div>
 	              </div>
 
@@ -134,14 +134,18 @@
 	                  <th scope="col">Actions</th>
 	                </tr>
 	              </thead>
-	              <tbody id="todo-table">
+	              <tbody id="todo-table" hx-target="closest tr">
                   {% for todo in todos %}
                   <tr>
-                    <th scope="row">{{todo.number}}</th>
+                    <th name="todo-id" id={{todo.id}} scope="row">{{todo.number}}</th>
                     <td>{{todo.content}}</td>
                     <td>{{todo.status}}</td>
                     <td>
-                      <button type="submit" class="btn btn-danger">Delete</button>
+                      <button type="submit" class="btn btn-danger"
+                        hx-trigger="click" 
+                        hx-delete="/api/deleteTodo"
+                        hx-include="[name='{{todo.id}}']" 
+                      >Delete</button>
                       <button type="submit" class="btn btn-success ms-1">Finished</button>
                     </td>
                   </tr>
