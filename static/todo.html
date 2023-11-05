@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<tr>
-    <th name="{{id}}" id="todo-id" value={{id}} scope="row">{{id}}</th>
+<tr id="row-{{id}}">
+    <th name="todo-id" class="todo-id" value={{id}} scope="row">{{id}}</th>
     <td>{{text_input}}</td>
-    <td>In progress</td>
+    <td>{{status}}</td>
     <td>
       <button type="submit" class="btn btn-danger"
         hx-trigger="click" 
-        hx-delete="/api/deleteTodo"
-        hx-include="[name='{{id}}']" 
+        hx-delete="/api/deleteTodo?id={{id}}"
         >Delete</button>
-      <button type="submit" class="btn btn-success ms-1">Finished</button>
+      <button type="submit" class="btn btn-success ms-1"
+        hx-trigger="click" 
+        hx-put="/api/updateStatus?id={{id}}"
+        hx-swap="outerHTML"
+      >Finished</button>
     </td>
 </tr>

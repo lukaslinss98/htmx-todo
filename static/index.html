@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="static/todo.ico" type="image/x-icon"/>
 	<link
 		  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 		  rel="stylesheet"
@@ -43,6 +44,14 @@
           margin-top: 45px;
         }
       }
+      .main {
+        min-height: 700px;
+      }
+
+      .card-card {
+        margin-top: 45px;
+
+      }
     </style>
 
     <!-- Navbar -->
@@ -50,7 +59,7 @@
       <div class="container-fluid">
         <!-- Navbar brand -->
         <a class="navbar-brand" target="_blank" href="https://mdbootstrap.com/docs/standard/">
-          <img src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png" height="16" alt="" loading="lazy"
+          <img src="static/todo.png" height="48" alt="" loading="lazy"
             style="margin-top: -3px;" />
         </a>
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
@@ -96,16 +105,16 @@
   <!--Main Navigation-->
 
   <!--Main layout-->
-  <main class="my-4">
+  <main class="my-4 main">
     <div class="container">
   	<!--Todo section-->
 	  <div class="container py-5 h-100">
 	    <div class="row d-flex justify-content-center align-items-center h-100">
 	      <div class="col col-lg-9 col-xl-7">
-	        <div class="card rounded-3">
+	        <div class="card rounded-3 mt-5">
 	          <div class="card-body p-4">
 
-	            <h4 class="text-center my-3 pb-3">Todo App</h4>
+	            <h4 class="text-center my-3 pb-3">Your Todos</h4>
 
 	            <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
 	              <div class="col-12">
@@ -123,6 +132,13 @@
                         hx-swap="beforeend"
 	                >Add</button>
 	              </div>
+                <div class="col-12">
+	                <button type="submit" class="btn btn-warning"	
+                        hx-delete="/api/deleteAll"
+                        hx-confirm="Are you sure you want to delete all todos?"
+                        hx-target="#todo-table"
+	                >Delete All</button>
+	              </div>
 	            </form>
 
 	            <table class="table mb-4">
@@ -135,21 +151,24 @@
 	                </tr>
 	              </thead>
 	              <tbody id="todo-table" hx-target="closest tr">
-                  {% for todo in todos %}
-                  <tr>
-                    <th name="todo-id" id={{todo.id}} scope="row">{{todo.number}}</th>
-                    <td>{{todo.content}}</td>
-                    <td>{{todo.status}}</td>
-                    <td>
-                      <button type="submit" class="btn btn-danger"
-                        hx-trigger="click" 
-                        hx-delete="/api/deleteTodo"
-                        hx-include="[name='{{todo.id}}']" 
-                      >Delete</button>
-                      <button type="submit" class="btn btn-success ms-1">Finished</button>
-                    </td>
-                  </tr>
-                  {% endfor %}
+                    {% for todo in todos %}
+                      <tr id="row-{{todo.id}}">
+                        <th name="todo-id" id={{todo.id}} scope="row">{{todo.id}}</th>
+                        <td>{{todo.content}}</td>
+                        <td>{{todo.status}}</td>
+                        <td>
+                          <button type="submit" class="btn btn-danger"
+                            hx-trigger="click" 
+                            hx-delete="/api/deleteTodo?id={{todo.id}}"
+                          >Delete</button>
+                          <button type="submit" class="btn btn-success ms-1"
+                            hx-trigger="click" 
+                            hx-put="/api/updateStatus?id={{todo.id}}"
+                            hx-swap="outerHTML"
+                          >Finished</button>
+                        </td>
+                      </tr>
+                    {% endfor %}              
   					    <!--This is where the todos go-->
 
 	              </tbody>
@@ -170,7 +189,7 @@
 
     <div class="text-center py-4 align-items-center">
       <p>Made by Lukas Linss</p>
-      <a href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" class="btn btn-primary m-1" role="button"
+      <!-- <a href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" class="btn btn-primary m-1" role="button"
         rel="nofollow" target="_blank">
         <i class="fab fa-youtube"></i>
       </a>
@@ -185,12 +204,12 @@
       <a href="https://github.com/mdbootstrap/mdb-ui-kit" class="btn btn-primary m-1" role="button" rel="nofollow"
         target="_blank">
         <i class="fab fa-github"></i>
-      </a>
+      </a> -->
     </div>
 
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      © 2020 Copyright:
+      © 2023 Copyright:
       <a class="text-dark" href="https://mdbootstrap.com/">lukas-linss.com</a>
     </div>
     <!-- Copyright -->
